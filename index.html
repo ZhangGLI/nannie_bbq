@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>焰火十三香 — 烧烤调料专家</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-dark: #0f0a06;
+      --bg-card: #1c1208;
+      --ember: #e85d04;
+      --ember-light: #f48c06;
+      --gold: #fca311;
+      --cream: #fff3e4;
+      --text: #e8d5b7;
+      --text-muted: #9c7c5c;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── Ambient fire particles ── */
+    #particles-canvas {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative; z-index: 1;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 20px 0;
+      background: linear-gradient(to bottom, rgba(15,10,6,0.95), transparent);
+      backdrop-filter: blur(10px);
+    }
+    nav .container {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      font-size: 1.4rem; font-weight: 900;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+      text-decoration: none;
+    }
+    .logo span { color: var(--ember); }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      color: var(--text-muted); text-decoration: none;
+      font-size: 0.9rem; font-weight: 500;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      position: relative;
+    }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      padding: 120px 0 80px;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(232,93,4,0.15);
+      border: 1px solid rgba(232,93,4,0.3);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 0.8rem; color: var(--ember-light);
+      margin-bottom: 24px;
+      animation: fadeInUp 0.8s ease both;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--ember);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      animation: fadeInUp 0.8s 0.1s ease both;
+    }
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, var(--ember), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-desc {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      max-width: 480px;
+      margin-bottom: 40px;
+      animation: fadeInUp 0.8s 0.2s ease both;
+    }
+    .hero-ctas {
+      display: flex; gap: 16px; flex-wrap: wrap;
+      animation: fadeInUp 0.8s 0.3s ease both;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, var(--ember), var(--ember-light));
+      color: #fff; font-weight: 700;
+      padding: 16px 36px;
+      border-radius: 100px;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 40px rgba(232,93,4,0.3);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 60px rgba(232,93,4,0.5);
+    }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid rgba(255,243,228,0.2);
+      color: var(--cream); font-weight: 500;
+      padding: 16px 36px;
+      border-radius: 100px;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .btn-secondary:hover {
+      border-color: var(--gold);
+      background: rgba(252,163,17,0.08);
+    }
+    .hero-visual {
+      display: flex; justify-content: center; align-items: center;
+      animation: fadeIn 1.2s 0.4s ease both;
+    }
+    .product-glow {
+      width: 360px; height: 360px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(232,93,4,0.25) 0%, transparent 70%);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .product-glow::before {
+      content: '';
+      position: absolute; inset: 20px;
+      border-radius: 50%;
+      border: 1px solid rgba(252,163,17,0.15);
+      animation: rotate 20s linear infinite;
+    }
+    .product-glow::after {
+      content: '';
+      position: absolute; inset: 60px;
+      border-radius: 50%;
+      border: 1px dashed rgba(232,93,4,0.2);
+      animation: rotate 15s linear infinite reverse;
+    }
+    .product-icon {
+      font-size: 140px;
+      filter: drop-shadow(0 0 40px rgba(232,93,4,0.4));
+      animation: float 4s ease-in-out infinite;
+    }
+
+    /* ── Stats bar ── */
+    .stats-bar {
+      background: var(--bg-card);
+      border-top: 1px solid rgba(252,163,17,0.1);
+      border-bottom: 1px solid rgba(252,163,17,0.1);
+      padding: 32px 0;
+    }
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 24px; text-align: center;
+    }
+    .stat-item {}
+    .stat-num {
+      font-size: 2.2rem; font-weight: 900;
+      color: var(--gold);
+    }
+    .stat-label {
+      font-size: 0.85rem; color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ── Flavors ── */
+    .section { padding: 100px 0; }
+    .section-tag {
+      font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 900;
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 1.05rem; color: var(--text-muted);
+      max-width: 560px; line-height: 1.7;
+    }
+    .flavor-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px; margin-top: 60px;
+    }
+    .flavor-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(252,163,17,0.08);
+      border-radius: 24px;
+      padding: 40px 32px;
+      transition: border-color 0.3s, transform 0.3s;
+      cursor: default;
+    }
+    .flavor-card:hover {
+      border-color: rgba(252,163,17,0.3);
+      transform: translateY(-4px);
+    }
+    .flavor-icon {
+      font-size: 48px; margin-bottom: 20px;
+    }
+    .flavor-name {
+      font-size: 1.3rem; font-weight: 700;
+      color: var(--cream); margin-bottom: 8px;
+    }
+    .flavor-desc {
+      font-size: 0.9rem; color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .flavor-tag {
+      display: inline-block;
+      margin-top: 16px;
+      background: rgba(232,93,4,0.12);
+      color: var(--ember-light);
+      font-size: 0.75rem; font-weight: 600;
+      padding: 4px 12px; border-radius: 100px;
+    }
+
+    /* ── Testimonials ── */
+    .testimonials-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 24px; margin-top: 60px;
+    }
+    .review-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(252,163,17,0.06);
+      border-radius: 24px;
+      padding: 36px;
+    }
+    .review-stars { color: var(--gold); font-size: 1rem; margin-bottom: 16px; }
+    .review-text {
+      font-size: 1rem; line-height: 1.8;
+      color: var(--cream); margin-bottom: 20px;
+    }
+    .reviewer {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .reviewer-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--ember), var(--gold));
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; color: #fff; font-size: 0.9rem;
+    }
+    .reviewer-name { font-weight: 600; font-size: 0.9rem; }
+    .reviewer-title { font-size: 0.78rem; color: var(--text-muted); }
+
+    /* ── CTA Banner ── */
+    .cta-banner {
+      background: linear-gradient(135deg, #1a0d05 0%, #2d1500 100%);
+      border: 1px solid rgba(232,93,4,0.2);
+      border-radius: 32px;
+      padding: 80px 60px;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .cta-banner::before {
+      content: '';
+      position: absolute; top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle at 30% 50%, rgba(232,93,4,0.08) 0%, transparent 50%);
+      animation: rotate 30s linear infinite;
+    }
+    .cta-banner h2 {
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 900; margin-bottom: 16px;
+      position: relative;
+    }
+    .cta-banner p {
+      font-size: 1.05rem; color: var(--text-muted);
+      margin-bottom: 36px; position: relative;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid rgba(252,163,17,0.06);
+      padding: 48px 0;
+      margin-top: 60px;
+    }
+    .footer-inner {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-brand { font-size: 1.1rem; font-weight: 900; color: var(--gold); }
+    .footer-copy { font-size: 0.85rem; color: var(--text-muted); }
+
+    /* ── Animations ── */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-16px); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.5); }
+    }
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* ── Scroll reveal ── */
+    .reveal {
+      opacity: 0; transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1; transform: translateY(0);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .hero-inner { grid-template-columns: 1fr; text-align: center; }
+      .hero-desc { margin: 0 auto 40px; }
+      .hero-ctas { justify-content: center; }
+      .hero-visual { display: none; }
+      .product-glow { width: 260px; height: 260px; }
+      .product-icon { font-size: 100px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .flavor-grid { grid-template-columns: 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .cta-banner { padding: 48px 24px; }
+      .nav-links { display: none; }
+      .footer-inner { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Ambient particles -->
+<canvas id="particles-canvas"></canvas>
+
+<!-- Nav -->
+<nav>
+  <div class="container">
+    <a href="#" class="logo">焰火<span>十三香</span></a>
+    <ul class="nav-links">
+      <li><a href="#flavors">产品口味</a></li>
+      <li><a href="#reviews">用户评价</a></li>
+      <li><a href="#contact">联系我们</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="hero-badge">甄选 · 传承 · 烟火气</div>
+        <h1>一撒入魂<br><span class="highlight">炭火级烧烤料</span></h1>
+        <p class="hero-desc">
+          十三种天然香料科学配比，还原路边摊的烟火香气。<br>
+          烤肉、烤串、烤蔬菜——一料搞定，让你的烧烤段位原地起飞。
+        </p>
+        <div class="hero-ctas">
+          <a href="#contact" class="btn-primary">立即下单</a>
+          <a href="#flavors" class="btn-secondary">了解口味</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="product-glow">
+          <div class="product-icon">🌶️</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<div class="stats-bar">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-num">13</div>
+        <div class="stat-label">天然香料配方</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">50K+</div>
+        <div class="stat-label">忠实用户</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">4.9</div>
+        <div class="stat-label">平均评分</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">0</div>
+        <div class="stat-label">人工香精添加</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Flavors -->
+<section class="section" id="flavors">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">三大经典口味</div>
+      <h2 class="section-title">每一款都是回头客</h2>
+      <p class="section-sub">
+        三种风格，覆盖所有烧烤场景。无论是重口味爱好者还是清淡系，总有一款戳中你。
+      </p>
+    </div>
+    <div class="flavor-grid">
+      <div class="flavor-card reveal">
+        <div class="flavor-icon">🔥</div>
+        <div class="flavor-name">烈焰麻辣味</div>
+        <div class="flavor-desc">二荆条、青花椒打底，辣而不燥、麻而回甜。适合牛羊肉、鸡翅、鸭脖。</div>
+        <div class="flavor-tag">辣度 ★★★★☆</div>
+      </div>
+      <div class="flavor-card reveal">
+        <div class="flavor-icon">🍯</div>
+        <div class="flavor-name">蜜汁酱香味</div>
+        <div class="flavor-desc">蜂蜜与麦芽糖低温熬制，甜润不腻，带淡淡烟熏感。适合五花肉、排骨、玉米。</div>
+        <div class="flavor-tag">辣度 ★☆☆☆☆</div>
+      </div>
+      <div class="flavor-card reveal">
+        <div class="flavor-icon">🧂</div>
+        <div class="flavor-name">原味十三香</div>
+        <div class="flavor-desc">八角、桂皮、白芷等十三味经典组合，香气层次丰富。适合所有食材，万能百搭。</div>
+        <div class="flavor-tag">辣度 ★★☆☆☆</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Reviews -->
+<section class="section" id="reviews" style="background: var(--bg-card); padding: 100px 0;">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">真实评价</div>
+      <h2 class="section-title">吃过的都说好</h2>
+      <p class="section-sub">来自全国各地烧烤爱好者的真实反馈。</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="review-card reveal">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"自从用了这个料，我家阳台的烧烤摊成了全小区最受欢迎的。每周末都有人来蹭饭，根本停不下来。"</div>
+        <div class="reviewer">
+          <div class="reviewer-avatar">李</div>
+          <div>
+            <div class="reviewer-name">李先生</div>
+            <div class="reviewer-title">上海 · 家庭用户</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card reveal">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"开了五年烧烤摊，换了无数牌子，最后锁定焰火十三香。成本低、香气足，客人吃了都问我在哪买的。"</div>
+        <div class="reviewer">
+          <div class="reviewer-avatar">王</div>
+          <div>
+            <div class="reviewer-name">王大姐</div>
+            <div class="reviewer-title">成都 · 烧烤店主</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card reveal">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"露营带上这个调料真的太方便了！一包搞定所有食材，朋友们还以为我偷偷去学了烧烤技术。"</div>
+        <div class="reviewer">
+          <div class="reviewer-avatar">张</div>
+          <div>
+            <div class="reviewer-name">张先生</div>
+            <div class="reviewer-title">北京 · 户外露营爱好者</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card reveal">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"我之前从来不吃辣，蜜汁酱香味的彻底改变了我的认知。甜润不腻，烤五花肉简直一绝！"</div>
+        <div class="reviewer">
+          <div class="reviewer-avatar">陈</div>
+          <div>
+            <div class="reviewer-name">陈小姐</div>
+            <div class="reviewer-title">广州 · 美食博主</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section" id="contact">
+  <div class="container">
+    <div class="cta-banner reveal">
+      <h2>让烟火气，从厨房开始</h2>
+      <p>一瓶尝遍十三香，首单享八折优惠。限时活动，错过等下月。</p>
+      <a href="https://item.taobao.com/item.htm?id=YOUR_ITEM_ID" class="btn-primary" target="_blank">
+        去淘宝下单
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">焰火十三香</div>
+      <div class="footer-copy">© 2026 焰火十三香 · 专注烧烤调料，让烟火气走进千家万户</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── Particle canvas ──
+  (function() {
+    const canvas = document.getElementById('particles-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [];
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    class Particle {
+      constructor() { this.reset(); }
+      reset() {
+        this.x = Math.random() * W;
+        this.y = H + 10;
+        this.size = Math.random() * 3 + 1;
+        this.speedY = -(Math.random() * 1.2 + 0.3);
+        this.speedX = (Math.random() - 0.5) * 0.6;
+        this.opacity = Math.random() * 0.5 + 0.1;
+        this.life = 0;
+        this.maxLife = Math.random() * 200 + 100;
+      }
+      update() {
+        this.y += this.speedY;
+        this.x += this.speedX;
+        this.speedX += (Math.random() - 0.5) * 0.05;
+        this.life++;
+        if (this.life > this.maxLife || this.y < -10) this.reset();
+      }
+      draw() {
+        const t = this.life / this.maxLife;
+        const alpha = t < 0.2 ? t * 5 * this.opacity : (1 - (t - 0.2) / 0.8) * this.opacity;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(232, 93, 4, ${Math.max(0, alpha)})`;
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < 60; i++) {
+      const p = new Particle();
+      p.y = Math.random() * H;
+      p.life = Math.random() * 100;
+      particles.push(p);
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, W, H);
+      particles.forEach(p => { p.update(); p.draw(); });
+      requestAnimationFrame(animate);
+    }
+    animate();
+  })();
+
+  // ── Scroll reveal ──
+  (function() {
+    const els = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver(entries => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    els.forEach(el => io.observe(el));
+  })();
+</script>
+</body>
+</html>
