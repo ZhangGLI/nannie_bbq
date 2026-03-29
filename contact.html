@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>联系我们 — 楠姐秘制烧烤料</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="container navbar-inner">
+    <a href="index.html" class="navbar-brand">
+      <div class="brand-logo">🔥</div>
+      <div class="brand-name">楠姐<span>秘制</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="products.html">产品展示</a></li>
+      <li><a href="story.html">品牌故事</a></li>
+      <li><a href="guide.html">使用教程</a></li>
+      <li><a href="cases.html">客户案例</a></li>
+      <li><a href="contact.html" class="active">联系我们</a></li>
+    </ul>
+    <a href="contact.html" class="nav-cta">立即咨询</a>
+  </div>
+</nav>
+
+<!-- Banner -->
+<div class="page-banner">
+  <div class="container">
+    <h1>联系我们</h1>
+    <p>无论是产品咨询、批发合作还是代理加盟，楠姐都会第一时间回复你</p>
+  </div>
+</div>
+
+<!-- Contact -->
+<section class="section">
+  <div class="container">
+    <div class="contact-grid">
+      <!-- Form -->
+      <div class="contact-form reveal">
+        <div class="form-title">发送咨询消息</div>
+        <form onsubmit="handleSubmit(event)">
+          <div class="form-group">
+            <label class="form-label">您的称呼</label>
+            <input class="form-input" type="text" placeholder="请输入您的姓名" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">联系电话</label>
+            <input class="form-input" type="tel" placeholder="请输入手机号码" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">咨询类型</label>
+            <select class="form-select">
+              <option>产品购买咨询</option>
+              <option>批发 / 商户合作</option>
+              <option>代理加盟</option>
+              <option>其他问题</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">留言内容</label>
+            <textarea class="form-textarea" placeholder="请描述您的问题或需求…" required></textarea>
+          </div>
+          <button type="submit" class="form-submit">提交咨询</button>
+        </form>
+      </div>
+      <!-- Info -->
+      <div class="reveal">
+        <h2 class="section-title" style="margin-bottom:28px;">联系方式</h2>
+        <div class="contact-items">
+          <div class="contact-item">
+            <div class="contact-icon">📱</div>
+            <div>
+              <div class="contact-item-title">微信 / 手机</div>
+              <div class="contact-item-value">138-0000-0000（楠姐）</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">💬</div>
+            <div>
+              <div class="contact-item-title">微信公众号</div>
+              <div class="contact-item-value">楠姐秘制烧烤料（微信号：nanjie_bbq）</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">🏪</div>
+            <div>
+              <div class="contact-item-title">淘宝店铺</div>
+              <div class="contact-item-value">楠姐秘制烧烤料（搜索"楠姐烧烤料"）</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div>
+              <div class="contact-item-title">发货地址</div>
+              <div class="contact-item-value">四川省成都市（全国包邮）</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">⏰</div>
+            <div>
+              <div class="contact-item-title">工作时间</div>
+              <div class="contact-item-value">周一至周六 9:00 - 20:00</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">🏭</div>
+            <div>
+              <div class="contact-item-title">批发合作</div>
+              <div class="contact-item-value">支持烧烤店、餐饮商户批量采购，量大从优</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">楠姐<span>秘制</span></div>
+      <div class="footer-copy">© 2026 楠姐秘制烧烤料 · 烟火人间，一料入魂</div>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
