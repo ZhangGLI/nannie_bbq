@@ -3,331 +3,598 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>焰火十三香 — 烧烤调料专家</title>
+  <title>楠姐秘制烧烤料 — 烟火人间，一料入魂</title>
+  <meta name="description" content="楠姐秘制烧烤料，选用十三种天然香辛料，还原炭火风味。家庭必备、商用首选、露营伴侣。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg-dark: #0f0a06;
-      --bg-card: #1c1208;
-      --ember: #e85d04;
-      --ember-light: #f48c06;
-      --gold: #fca311;
-      --cream: #fff3e4;
-      --text: #e8d5b7;
-      --text-muted: #9c7c5c;
+      --bg: #FFFBF5;
+      --bg-warm: #FFF5EC;
+      --bg-card: #FFFFFF;
+      --primary: #C75000;
+      --primary-light: #E8671A;
+      --accent: #F4A261;
+      --accent-light: #F4C48C;
+      --charcoal: #2D2006;
+      --text: #3D2B1F;
+      --text-muted: #8C7355;
+      --border: #EDD9C4;
+      --shadow: rgba(199, 80, 0, 0.08);
     }
 
     html { scroll-behavior: smooth; }
     body {
       font-family: 'Noto Sans SC', sans-serif;
-      background: var(--bg-dark);
+      background: var(--bg);
       color: var(--text);
-      overflow-x: hidden;
+      line-height: 1.6;
     }
 
-    /* ── Ambient fire particles ── */
-    #particles-canvas {
-      position: fixed; top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none; z-index: 0;
-    }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
 
-    /* ── Layout ── */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 24px;
-      position: relative; z-index: 1;
-    }
+    /* ── Container ── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 28px; }
 
-    /* ── Nav ── */
-    nav {
+    /* ── Navigation ── */
+    .navbar {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      padding: 20px 0;
-      background: linear-gradient(to bottom, rgba(15,10,6,0.95), transparent);
-      backdrop-filter: blur(10px);
+      background: rgba(255,251,245,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow 0.3s;
     }
-    nav .container {
+    .navbar.scrolled { box-shadow: 0 2px 20px var(--shadow); }
+    .navbar-inner {
       display: flex; align-items: center; justify-content: space-between;
+      height: 68px;
     }
-    .logo {
-      font-size: 1.4rem; font-weight: 900;
-      color: var(--gold);
-      letter-spacing: 0.05em;
-      text-decoration: none;
+    .navbar-brand {
+      display: flex; align-items: center; gap: 10px;
     }
-    .logo span { color: var(--ember); }
-    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .brand-logo {
+      width: 40px; height: 40px;
+      background: var(--primary);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+    }
+    .brand-name {
+      font-size: 1.1rem; font-weight: 800;
+      color: var(--charcoal);
+      letter-spacing: 0.02em;
+    }
+    .brand-name span { color: var(--primary); }
+    .nav-links {
+      display: flex; align-items: center; gap: 36px;
+      list-style: none;
+    }
     .nav-links a {
-      color: var(--text-muted); text-decoration: none;
       font-size: 0.9rem; font-weight: 500;
-      transition: color 0.3s;
+      color: var(--text-muted);
+      transition: color 0.2s;
+      position: relative;
     }
-    .nav-links a:hover { color: var(--gold); }
+    .nav-links a::after {
+      content: ''; position: absolute;
+      bottom: -4px; left: 0; right: 0;
+      height: 2px; background: var(--primary);
+      transform: scaleX(0); transition: transform 0.2s;
+      border-radius: 2px;
+    }
+    .nav-links a:hover { color: var(--primary); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-cta {
+      background: var(--primary);
+      color: #fff; font-weight: 700;
+      padding: 10px 24px; border-radius: 100px;
+      font-size: 0.88rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .nav-cta:hover { background: var(--primary-light); transform: translateY(-1px); }
+
+    /* Mobile menu */
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 4px;
+    }
+    .hamburger span {
+      width: 24px; height: 2px;
+      background: var(--charcoal);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
 
     /* ── Hero ── */
     .hero {
-      min-height: 100vh;
-      display: flex; align-items: center;
-      position: relative;
+      padding: 140px 0 80px;
+      position: relative; overflow: hidden;
     }
-    .hero-inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      align-items: center;
-      padding: 120px 0 80px;
+    .hero::before {
+      content: '';
+      position: absolute; top: -60px; right: -80px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(244,162,97,0.18) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; bottom: 0; left: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(199,80,0,0.08) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: center;
+      position: relative; z-index: 1;
     }
     .hero-badge {
       display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(232,93,4,0.15);
-      border: 1px solid rgba(232,93,4,0.3);
+      background: rgba(199,80,0,0.08);
+      border: 1px solid rgba(199,80,0,0.15);
       border-radius: 100px;
       padding: 6px 16px;
-      font-size: 0.8rem; color: var(--ember-light);
+      font-size: 0.8rem; color: var(--primary);
+      font-weight: 600;
       margin-bottom: 24px;
-      animation: fadeInUp 0.8s ease both;
+      animation: fadeInUp 0.7s ease both;
     }
-    .hero-badge::before {
-      content: '';
+    .hero-badge-dot {
       width: 6px; height: 6px;
-      background: var(--ember);
+      background: var(--accent);
       border-radius: 50%;
       animation: pulse 2s infinite;
     }
     .hero h1 {
-      font-size: clamp(2.5rem, 5vw, 4.5rem);
-      font-weight: 900;
-      line-height: 1.1;
-      margin-bottom: 24px;
-      animation: fadeInUp 0.8s 0.1s ease both;
+      font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+      font-weight: 900; line-height: 1.15;
+      color: var(--charcoal);
+      margin-bottom: 20px;
+      animation: fadeInUp 0.7s 0.1s ease both;
     }
-    .hero h1 .highlight {
-      background: linear-gradient(135deg, var(--ember), var(--gold));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+    .hero h1 em {
+      font-style: normal;
+      color: var(--primary);
+      position: relative;
+    }
+    .hero h1 em::after {
+      content: '';
+      position: absolute; bottom: 4px; left: 0; right: 0;
+      height: 8px; background: rgba(199,80,0,0.15);
+      border-radius: 4px; z-index: -1;
     }
     .hero-desc {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       color: var(--text-muted);
-      line-height: 1.8;
-      max-width: 480px;
-      margin-bottom: 40px;
-      animation: fadeInUp 0.8s 0.2s ease both;
+      line-height: 1.85;
+      max-width: 500px;
+      margin-bottom: 36px;
+      animation: fadeInUp 0.7s 0.2s ease both;
     }
-    .hero-ctas {
-      display: flex; gap: 16px; flex-wrap: wrap;
-      animation: fadeInUp 0.8s 0.3s ease both;
+    .hero-actions {
+      display: flex; gap: 14px; flex-wrap: wrap;
+      animation: fadeInUp 0.7s 0.3s ease both;
     }
     .btn-primary {
       display: inline-flex; align-items: center; gap: 8px;
-      background: linear-gradient(135deg, var(--ember), var(--ember-light));
-      color: #fff; font-weight: 700;
-      padding: 16px 36px;
-      border-radius: 100px;
-      text-decoration: none;
-      font-size: 1rem;
-      transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 0 40px rgba(232,93,4,0.3);
+      background: var(--primary);
+      color: #fff; font-weight: 700; font-size: 0.95rem;
+      padding: 14px 32px; border-radius: 100px;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(199,80,0,0.25);
     }
     .btn-primary:hover {
+      background: var(--primary-light);
       transform: translateY(-2px);
-      box-shadow: 0 0 60px rgba(232,93,4,0.5);
+      box-shadow: 0 8px 30px rgba(199,80,0,0.35);
     }
-    .btn-secondary {
+    .btn-outline {
       display: inline-flex; align-items: center; gap: 8px;
-      border: 1px solid rgba(255,243,228,0.2);
-      color: var(--cream); font-weight: 500;
-      padding: 16px 36px;
-      border-radius: 100px;
-      text-decoration: none;
-      font-size: 1rem;
-      transition: border-color 0.3s, background 0.3s;
+      border: 1.5px solid var(--border);
+      color: var(--text); font-weight: 600; font-size: 0.95rem;
+      padding: 14px 32px; border-radius: 100px;
+      background: #fff;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .btn-secondary:hover {
-      border-color: var(--gold);
-      background: rgba(252,163,17,0.08);
+    .btn-outline:hover {
+      border-color: var(--primary);
+      box-shadow: 0 4px 16px var(--shadow);
     }
     .hero-visual {
-      display: flex; justify-content: center; align-items: center;
-      animation: fadeIn 1.2s 0.4s ease both;
+      display: flex; justify-content: center;
+      animation: fadeIn 1s 0.3s ease both;
     }
-    .product-glow {
-      width: 360px; height: 360px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(232,93,4,0.25) 0%, transparent 70%);
-      display: flex; align-items: center; justify-content: center;
+    .hero-img-wrap {
       position: relative;
+      width: 420px; height: 420px;
     }
-    .product-glow::before {
-      content: '';
-      position: absolute; inset: 20px;
-      border-radius: 50%;
-      border: 1px solid rgba(252,163,17,0.15);
-      animation: rotate 20s linear infinite;
+    .hero-img-main {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 20px 60px rgba(199,80,0,0.2));
+      animation: float 5s ease-in-out infinite;
     }
-    .product-glow::after {
-      content: '';
-      position: absolute; inset: 60px;
-      border-radius: 50%;
-      border: 1px dashed rgba(232,93,4,0.2);
-      animation: rotate 15s linear infinite reverse;
+    .hero-img-main { font-size: 280px; display: flex; align-items: center; justify-content: center; }
+    .hero-float-card {
+      position: absolute;
+      background: #fff;
+      border-radius: 16px;
+      padding: 14px 18px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.85rem; font-weight: 600;
+      color: var(--charcoal);
     }
-    .product-icon {
-      font-size: 140px;
-      filter: drop-shadow(0 0 40px rgba(232,93,4,0.4));
-      animation: float 4s ease-in-out infinite;
-    }
-
-    /* ── Stats bar ── */
-    .stats-bar {
-      background: var(--bg-card);
-      border-top: 1px solid rgba(252,163,17,0.1);
-      border-bottom: 1px solid rgba(252,163,17,0.1);
-      padding: 32px 0;
-    }
-    .stats-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 24px; text-align: center;
-    }
-    .stat-item {}
-    .stat-num {
-      font-size: 2.2rem; font-weight: 900;
-      color: var(--gold);
-    }
-    .stat-label {
-      font-size: 0.85rem; color: var(--text-muted);
-      margin-top: 4px;
+    .hero-float-card.top-right { top: 20px; right: -20px; animation: fadeInUp 0.7s 0.6s ease both; }
+    .hero-float-card.bottom-left { bottom: 40px; left: -20px; animation: fadeInUp 0.7s 0.8s ease both; }
+    .float-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
     }
 
-    /* ── Flavors ── */
+    /* ── Trusted bar ── */
+    .trusted {
+      background: var(--bg-warm);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 28px 0;
+    }
+    .trusted-inner {
+      display: flex; align-items: center; justify-content: center;
+      gap: 48px; flex-wrap: wrap;
+    }
+    .trusted-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.85rem; color: var(--text-muted); font-weight: 500;
+    }
+    .trusted-icon {
+      width: 32px; height: 32px;
+      background: rgba(199,80,0,0.1);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+    }
+
+    /* ── Products ── */
     .section { padding: 100px 0; }
     .section-tag {
-      font-size: 0.8rem; font-weight: 700;
-      letter-spacing: 0.15em; text-transform: uppercase;
-      color: var(--ember);
-      margin-bottom: 12px;
+      display: inline-block;
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--primary);
+      background: rgba(199,80,0,0.08);
+      padding: 4px 14px; border-radius: 100px;
+      margin-bottom: 14px;
     }
     .section-title {
-      font-size: clamp(2rem, 3.5vw, 3rem);
-      font-weight: 900;
-      margin-bottom: 16px;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 900; color: var(--charcoal);
+      margin-bottom: 12px;
     }
     .section-sub {
-      font-size: 1.05rem; color: var(--text-muted);
-      max-width: 560px; line-height: 1.7;
+      font-size: 1rem; color: var(--text-muted);
+      max-width: 520px; line-height: 1.7;
     }
-    .flavor-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 24px; margin-top: 60px;
+    .section-header { margin-bottom: 56px; }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
     }
-    .flavor-card {
+    .product-card {
       background: var(--bg-card);
-      border: 1px solid rgba(252,163,17,0.08);
+      border: 1px solid var(--border);
       border-radius: 24px;
-      padding: 40px 32px;
-      transition: border-color 0.3s, transform 0.3s;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
       cursor: default;
     }
-    .flavor-card:hover {
-      border-color: rgba(252,163,17,0.3);
-      transform: translateY(-4px);
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px var(--shadow);
+      border-color: var(--accent-light);
     }
-    .flavor-icon {
-      font-size: 48px; margin-bottom: 20px;
-    }
-    .flavor-name {
-      font-size: 1.3rem; font-weight: 700;
-      color: var(--cream); margin-bottom: 8px;
-    }
-    .flavor-desc {
-      font-size: 0.9rem; color: var(--text-muted);
-      line-height: 1.7;
-    }
-    .flavor-tag {
-      display: inline-block;
-      margin-top: 16px;
-      background: rgba(232,93,4,0.12);
-      color: var(--ember-light);
-      font-size: 0.75rem; font-weight: 600;
-      padding: 4px 12px; border-radius: 100px;
-    }
-
-    /* ── Testimonials ── */
-    .testimonials-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr);
-      gap: 24px; margin-top: 60px;
-    }
-    .review-card {
-      background: var(--bg-card);
-      border: 1px solid rgba(252,163,17,0.06);
-      border-radius: 24px;
-      padding: 36px;
-    }
-    .review-stars { color: var(--gold); font-size: 1rem; margin-bottom: 16px; }
-    .review-text {
-      font-size: 1rem; line-height: 1.8;
-      color: var(--cream); margin-bottom: 20px;
-    }
-    .reviewer {
-      display: flex; align-items: center; gap: 12px;
-    }
-    .reviewer-avatar {
-      width: 40px; height: 40px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--ember), var(--gold));
+    .product-img {
+      width: 100%; height: 240px;
+      background: var(--bg-warm);
       display: flex; align-items: center; justify-content: center;
-      font-weight: 700; color: #fff; font-size: 0.9rem;
-    }
-    .reviewer-name { font-weight: 600; font-size: 0.9rem; }
-    .reviewer-title { font-size: 0.78rem; color: var(--text-muted); }
-
-    /* ── CTA Banner ── */
-    .cta-banner {
-      background: linear-gradient(135deg, #1a0d05 0%, #2d1500 100%);
-      border: 1px solid rgba(232,93,4,0.2);
-      border-radius: 32px;
-      padding: 80px 60px;
-      text-align: center;
+      font-size: 100px;
       position: relative; overflow: hidden;
     }
-    .cta-banner::before {
+    .product-img::after {
       content: '';
-      position: absolute; top: -50%; left: -50%;
-      width: 200%; height: 200%;
-      background: radial-gradient(circle at 30% 50%, rgba(232,93,4,0.08) 0%, transparent 50%);
-      animation: rotate 30s linear infinite;
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 40px;
+      background: linear-gradient(to top, var(--bg-warm), transparent);
     }
-    .cta-banner h2 {
-      font-size: clamp(1.8rem, 3vw, 2.8rem);
-      font-weight: 900; margin-bottom: 16px;
+    .product-badge {
+      position: absolute; top: 16px; left: 16px;
+      background: var(--primary);
+      color: #fff; font-size: 0.72rem; font-weight: 700;
+      padding: 4px 12px; border-radius: 100px;
+      z-index: 1;
+    }
+    .product-info { padding: 28px; }
+    .product-name {
+      font-size: 1.2rem; font-weight: 800;
+      color: var(--charcoal); margin-bottom: 6px;
+    }
+    .product-desc {
+      font-size: 0.88rem; color: var(--text-muted);
+      line-height: 1.7; margin-bottom: 16px;
+    }
+    .product-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .product-tag {
+      font-size: 0.72rem; font-weight: 600;
+      padding: 3px 10px; border-radius: 100px;
+      background: rgba(199,80,0,0.06);
+      color: var(--primary);
+    }
+    .product-tag.hot { background: rgba(220,38,38,0.08); color: #DC2626; }
+
+    /* ── Story ── */
+    .story-section { background: var(--bg-warm); }
+    .story-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .story-visual {
+      display: flex; justify-content: center;
+    }
+    .story-img-circle {
+      width: 380px; height: 380px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-light) 0%, var(--accent) 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 140px;
       position: relative;
+      box-shadow: 0 30px 80px rgba(199,80,0,0.15);
     }
-    .cta-banner p {
-      font-size: 1.05rem; color: var(--text-muted);
-      margin-bottom: 36px; position: relative;
+    .story-img-circle::before {
+      content: ''; position: absolute;
+      inset: -16px;
+      border-radius: 50%;
+      border: 2px dashed rgba(199,80,0,0.2);
     }
+    .story-content {}
+    .story-quote {
+      font-size: 1.05rem;
+      color: var(--charcoal); font-weight: 500;
+      line-height: 1.9;
+      margin-bottom: 28px;
+      padding-left: 20px;
+      border-left: 3px solid var(--primary);
+      font-style: italic;
+    }
+    .story-features {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .story-feature {
+      display: flex; align-items: flex-start; gap: 12px;
+    }
+    .story-feature-icon {
+      width: 36px; height: 36px;
+      background: rgba(199,80,0,0.08);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+    }
+    .story-feature-title { font-weight: 700; font-size: 0.9rem; color: var(--charcoal); }
+    .story-feature-desc { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+
+    /* ── How to use ── */
+    .steps-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 28px;
+    }
+    .step-card {
+      text-align: center; padding: 40px 24px 32px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .step-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px var(--shadow);
+    }
+    .step-num {
+      width: 56px; height: 56px;
+      margin: 0 auto 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; font-weight: 900;
+      color: #fff;
+      font-family: 'Georgia', serif;
+    }
+    .step-title { font-size: 1.05rem; font-weight: 800; color: var(--charcoal); margin-bottom: 8px; }
+    .step-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.7; }
+    .step-emoji { font-size: 40px; margin-bottom: 12px; }
+
+    /* ── Cases ── */
+    .cases-section { background: var(--charcoal); }
+    .cases-section .section-tag { background: rgba(255,255,255,0.1); color: var(--accent); }
+    .cases-section .section-title { color: #fff; }
+    .cases-section .section-sub { color: rgba(255,255,255,0.55); }
+    .cases-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .case-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px; padding: 32px 28px;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .case-card:hover {
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-4px);
+    }
+    .case-avatar {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      margin-bottom: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; font-weight: 800; color: #fff;
+    }
+    .case-text {
+      font-size: 0.92rem; color: rgba(255,255,255,0.8);
+      line-height: 1.8; margin-bottom: 16px;
+    }
+    .case-meta { display: flex; justify-content: space-between; align-items: center; }
+    .case-name { font-weight: 700; font-size: 0.88rem; color: #fff; }
+    .case-label {
+      font-size: 0.72rem; padding: 3px 10px;
+      border-radius: 100px;
+      background: rgba(244,162,97,0.15);
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .case-stars { color: var(--accent); font-size: 0.85rem; }
+
+    /* ── CTA ── */
+    .cta-section {}
+    .cta-card {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      border-radius: 32px; padding: 72px 60px;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .cta-card::before {
+      content: '';
+      position: absolute; top: -50%; right: -20%;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .cta-card::after {
+      content: '';
+      position: absolute; bottom: -30%; left: -10%;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .cta-title { font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 900; color: #fff; margin-bottom: 12px; position: relative; }
+    .cta-sub { font-size: 1rem; color: rgba(255,255,255,0.8); margin-bottom: 36px; position: relative; }
+    .cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; position: relative; }
+    .btn-white {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #fff; color: var(--primary);
+      font-weight: 800; font-size: 0.95rem;
+      padding: 14px 36px; border-radius: 100px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1.5px solid rgba(255,255,255,0.4);
+      color: #fff; font-weight: 600; font-size: 0.95rem;
+      padding: 14px 36px; border-radius: 100px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-ghost:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
+
+    /* ── Contact ── */
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: start;
+    }
+    .contact-form {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 24px; padding: 40px;
+    }
+    .form-title { font-size: 1.2rem; font-weight: 800; color: var(--charcoal); margin-bottom: 24px; }
+    .form-group { margin-bottom: 18px; }
+    .form-label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+    .form-input, .form-textarea {
+      width: 100%; padding: 12px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-size: 0.9rem; font-family: inherit;
+      background: var(--bg);
+      color: var(--text);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(199,80,0,0.1);
+    }
+    .form-textarea { resize: vertical; min-height: 100px; }
+    .form-submit {
+      width: 100%; padding: 14px;
+      background: var(--primary);
+      color: #fff; font-weight: 700; font-size: 0.95rem;
+      border: none; border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .form-submit:hover { background: var(--primary-light); transform: translateY(-1px); }
+    .contact-info {}
+    .contact-info h3 { font-size: 1.3rem; font-weight: 800; color: var(--charcoal); margin-bottom: 24px; }
+    .contact-items { display: flex; flex-direction: column; gap: 20px; }
+    .contact-item {
+      display: flex; align-items: flex-start; gap: 14px;
+    }
+    .contact-icon {
+      width: 44px; height: 44px;
+      background: rgba(199,80,0,0.08);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; flex-shrink: 0;
+    }
+    .contact-item-title { font-weight: 700; font-size: 0.9rem; color: var(--charcoal); }
+    .contact-item-value { font-size: 0.85rem; color: var(--text-muted); margin-top: 2px; }
 
     /* ── Footer ── */
     footer {
-      border-top: 1px solid rgba(252,163,17,0.06);
-      padding: 48px 0;
-      margin-top: 60px;
+      background: var(--charcoal);
+      padding: 48px 0 28px;
     }
-    .footer-inner {
+    .footer-top {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; gap: 40px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 28px;
+    }
+    .footer-brand {
+      font-size: 1.1rem; font-weight: 900;
+      color: #fff; margin-bottom: 8px;
+    }
+    .footer-brand span { color: var(--accent); }
+    .footer-tagline { font-size: 0.82rem; color: rgba(255,255,255,0.4); }
+    .footer-links { display: flex; gap: 40px; }
+    .footer-link-col {}
+    .footer-link-col h4 { font-size: 0.78rem; font-weight: 700; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 14px; }
+    .footer-link-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .footer-link-col a { font-size: 0.85rem; color: rgba(255,255,255,0.6); transition: color 0.2s; }
+    .footer-link-col a:hover { color: var(--accent); }
+    .footer-bottom {
       display: flex; justify-content: space-between; align-items: center;
-      flex-wrap: wrap; gap: 16px;
+      font-size: 0.78rem; color: rgba(255,255,255,0.3);
     }
-    .footer-brand { font-size: 1.1rem; font-weight: 900; color: var(--gold); }
-    .footer-copy { font-size: 0.85rem; color: var(--text-muted); }
+
+    /* ── Scroll Reveal ── */
+    .reveal {
+      opacity: 0; transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
 
     /* ── Animations ── */
     @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
+      from { opacity: 0; transform: translateY(24px); }
       to { opacity: 1; transform: translateY(0); }
     }
     @keyframes fadeIn {
@@ -336,193 +603,341 @@
     }
     @keyframes float {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-16px); }
+      50% { transform: translateY(-14px); }
     }
     @keyframes pulse {
       0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(1.5); }
-    }
-    @keyframes rotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    /* ── Scroll reveal ── */
-    .reveal {
-      opacity: 0; transform: translateY(40px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-    .reveal.visible {
-      opacity: 1; transform: translateY(0);
+      50% { opacity: 0.6; transform: scale(1.4); }
     }
 
     /* ── Responsive ── */
-    @media (max-width: 768px) {
-      .hero-inner { grid-template-columns: 1fr; text-align: center; }
-      .hero-desc { margin: 0 auto 40px; }
-      .hero-ctas { justify-content: center; }
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; text-align: center; }
+      .hero-desc { margin: 0 auto 36px; }
+      .hero-actions { justify-content: center; }
       .hero-visual { display: none; }
-      .product-glow { width: 260px; height: 260px; }
-      .product-icon { font-size: 100px; }
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      .flavor-grid { grid-template-columns: 1fr; }
-      .testimonials-grid { grid-template-columns: 1fr; }
-      .cta-banner { padding: 48px 24px; }
+      .products-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+      .cases-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr 1fr; }
+      .story-grid { grid-template-columns: 1fr; gap: 40px; }
+      .story-visual { order: -1; }
+      .story-img-circle { width: 280px; height: 280px; font-size: 100px; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .footer-top { flex-direction: column; }
+      .footer-links { flex-wrap: wrap; gap: 24px; }
+      .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
       .nav-links { display: none; }
-      .footer-inner { flex-direction: column; text-align: center; }
+      .hamburger { display: flex; }
+      .cta-card { padding: 48px 28px; }
+    }
+    @media (max-width: 600px) {
+      .steps-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-<!-- Ambient particles -->
-<canvas id="particles-canvas"></canvas>
-
-<!-- Nav -->
-<nav>
-  <div class="container">
-    <a href="#" class="logo">焰火<span>十三香</span></a>
+<!-- Navbar -->
+<nav class="navbar" id="navbar">
+  <div class="container navbar-inner">
+    <a href="#" class="navbar-brand">
+      <div class="brand-logo">🔥</div>
+      <div class="brand-name">楠姐<span>秘制</span></div>
+    </a>
     <ul class="nav-links">
-      <li><a href="#flavors">产品口味</a></li>
-      <li><a href="#reviews">用户评价</a></li>
+      <li><a href="#products">产品展示</a></li>
+      <li><a href="#story">品牌故事</a></li>
+      <li><a href="#guide">使用教程</a></li>
+      <li><a href="#cases">客户案例</a></li>
       <li><a href="#contact">联系我们</a></li>
     </ul>
+    <a href="#contact" class="nav-cta">立即咨询</a>
+    <div class="hamburger" id="hamburger" onclick="this.classList.toggle('active')">
+      <span></span><span></span><span></span>
+    </div>
   </div>
 </nav>
 
 <!-- Hero -->
 <section class="hero">
   <div class="container">
-    <div class="hero-inner">
+    <div class="hero-grid">
       <div class="hero-text">
-        <div class="hero-badge">甄选 · 传承 · 烟火气</div>
-        <h1>一撒入魂<br><span class="highlight">炭火级烧烤料</span></h1>
+        <div class="hero-badge">
+          <div class="hero-badge-dot"></div>
+          十三种天然香辛料 · 零添加 · 零失败
+        </div>
+        <h1>烟火人间<br>一料<span>入魂</span></h1>
         <p class="hero-desc">
-          十三种天然香料科学配比，还原路边摊的烟火香气。<br>
-          烤肉、烤串、烤蔬菜——一料搞定，让你的烧烤段位原地起飞。
+          楠姐秘制烧烤料，精选十三种天然香辛料，经小火慢炒、古法研磨，
+          还原记忆中路边摊的炭火香气。烤肉、烤串、烤蔬菜——一料搞定，
+          厨房小白也能秒变烧烤大师。
         </p>
-        <div class="hero-ctas">
-          <a href="#contact" class="btn-primary">立即下单</a>
-          <a href="#flavors" class="btn-secondary">了解口味</a>
+        <div class="hero-actions">
+          <a href="#products" class="btn-primary">了解产品</a>
+          <a href="#cases" class="btn-outline">客户案例</a>
         </div>
       </div>
       <div class="hero-visual">
-        <div class="product-glow">
-          <div class="product-icon">🌶️</div>
+        <div class="hero-img-wrap">
+          <div class="hero-img-main">🌶️</div>
+          <div class="hero-float-card top-right">
+            <div class="float-icon" style="background:rgba(199,80,0,0.1);">⏱️</div>
+            <div>
+              <div style="font-weight:700;">30秒</div>
+              <div style="font-size:0.75rem;color:var(--text-muted);">快速入味</div>
+            </div>
+          </div>
+          <div class="hero-float-card bottom-left">
+            <div class="float-icon" style="background:rgba(244,162,97,0.15);">❤️</div>
+            <div>
+              <div style="font-weight:700;">4.9分</div>
+              <div style="font-size:0.75rem;color:var(--text-muted);">好评如潮</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Stats -->
-<div class="stats-bar">
+<!-- Trusted bar -->
+<div class="trusted">
   <div class="container">
-    <div class="stats-grid">
-      <div class="stat-item">
-        <div class="stat-num">13</div>
-        <div class="stat-label">天然香料配方</div>
+    <div class="trusted-inner">
+      <div class="trusted-item">
+        <div class="trusted-icon">🌿</div>
+        十三种天然香辛料
       </div>
-      <div class="stat-item">
-        <div class="stat-num">50K+</div>
-        <div class="stat-label">忠实用户</div>
+      <div class="trusted-item">
+        <div class="trusted-icon">🚫</div>
+        零添加人工香精
       </div>
-      <div class="stat-item">
-        <div class="stat-num">4.9</div>
-        <div class="stat-label">平均评分</div>
+      <div class="trusted-item">
+        <div class="trusted-icon">🏭</div>
+        商用家用的首选
       </div>
-      <div class="stat-item">
-        <div class="stat-num">0</div>
-        <div class="stat-label">人工香精添加</div>
+      <div class="trusted-item">
+        <div class="trusted-icon">📦</div>
+        全国包邮送到家
+      </div>
+      <div class="trusted-item">
+        <div class="trusted-icon">🔒</div>
+        食品安全认证
       </div>
     </div>
   </div>
 </div>
 
-<!-- Flavors -->
-<section class="section" id="flavors">
+<!-- Products -->
+<section class="section" id="products">
   <div class="container">
-    <div class="reveal">
-      <div class="section-tag">三大经典口味</div>
-      <h2 class="section-title">每一款都是回头客</h2>
-      <p class="section-sub">
-        三种风格，覆盖所有烧烤场景。无论是重口味爱好者还是清淡系，总有一款戳中你。
-      </p>
+    <div class="section-header reveal">
+      <div class="section-tag">产品展示</div>
+      <h2 class="section-title">三大经典口味，覆盖所有场景</h2>
+      <p class="section-sub">无论你是重口味爱好者、甜食系，还是追求原汁原味，总有一款戳中你的味蕾。</p>
     </div>
-    <div class="flavor-grid">
-      <div class="flavor-card reveal">
-        <div class="flavor-icon">🔥</div>
-        <div class="flavor-name">烈焰麻辣味</div>
-        <div class="flavor-desc">二荆条、青花椒打底，辣而不燥、麻而回甜。适合牛羊肉、鸡翅、鸭脖。</div>
-        <div class="flavor-tag">辣度 ★★★★☆</div>
+    <div class="products-grid">
+      <div class="product-card reveal">
+        <div class="product-img">
+          🔥
+          <div class="product-badge">爆款</div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">烈焰麻辣味</div>
+          <div class="product-desc">二荆条、青花椒打底，辣而不燥、麻而回甜。适合牛羊肉串、鸡翅、鸡胗、鸭脖。</div>
+          <div class="product-tags">
+            <span class="product-tag hot">辣度 ★★★★☆</span>
+            <span class="product-tag">牛羊肉</span>
+            <span class="product-tag">爆款</span>
+          </div>
+        </div>
       </div>
-      <div class="flavor-card reveal">
-        <div class="flavor-icon">🍯</div>
-        <div class="flavor-name">蜜汁酱香味</div>
-        <div class="flavor-desc">蜂蜜与麦芽糖低温熬制，甜润不腻，带淡淡烟熏感。适合五花肉、排骨、玉米。</div>
-        <div class="flavor-tag">辣度 ★☆☆☆☆</div>
+      <div class="product-card reveal">
+        <div class="product-img" style="background: linear-gradient(135deg, #FFF5EC, #FDEBD0);">
+          🍯
+        </div>
+        <div class="product-info">
+          <div class="product-name">蜜汁酱香味</div>
+          <div class="product-desc">蜂蜜与麦芽糖低温熬制，甜润不腻，带淡淡烟熏感。适合五花肉、肋排、玉米、红薯。</div>
+          <div class="product-tags">
+            <span class="product-tag">辣度 ☆☆☆☆☆</span>
+            <span class="product-tag">甜食系</span>
+            <span class="product-tag">儿童友好</span>
+          </div>
+        </div>
       </div>
-      <div class="flavor-card reveal">
-        <div class="flavor-icon">🧂</div>
-        <div class="flavor-name">原味十三香</div>
-        <div class="flavor-desc">八角、桂皮、白芷等十三味经典组合，香气层次丰富。适合所有食材，万能百搭。</div>
-        <div class="flavor-tag">辣度 ★★☆☆☆</div>
+      <div class="product-card reveal">
+        <div class="product-img" style="background: linear-gradient(135deg, #F0F4F0, #D8ECD0);">
+          🧂
+        </div>
+        <div class="product-info">
+          <div class="product-name">原味十三香</div>
+          <div class="product-desc">八角、桂皮、白芷等十三味经典组合，香气层次丰富、回味悠长。万能百搭，适合所有食材。</div>
+          <div class="product-tags">
+            <span class="product-tag">辣度 ★☆☆☆☆</span>
+            <span class="product-tag">万能百搭</span>
+            <span class="product-tag">新手首选</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Reviews -->
-<section class="section" id="reviews" style="background: var(--bg-card); padding: 100px 0;">
+<!-- Story -->
+<section class="section story-section" id="story">
   <div class="container">
-    <div class="reveal">
-      <div class="section-tag">真实评价</div>
-      <h2 class="section-title">吃过的都说好</h2>
-      <p class="section-sub">来自全国各地烧烤爱好者的真实反馈。</p>
+    <div class="story-grid">
+      <div class="story-visual reveal">
+        <div class="story-img-circle">👩‍🍳</div>
+      </div>
+      <div class="story-content reveal">
+        <div class="section-tag">品牌故事</div>
+        <h2 class="section-title">从一张小摊到千家万户的餐桌</h2>
+        <p class="story-quote">
+          "做烧烤料这件事，我从路边摆摊就开始了。一开始只是为了让自己烤的串更好吃，
+          后来街坊邻居都说好，让我多做几份。就这样，一传十，十传百……"
+        </p>
+        <p style="font-size:0.92rem; color:var(--text-muted); margin-bottom:28px; line-height:1.8;">
+          楠姐在成都经营烧烤摊十余年，从街边小推车起步，始终坚持用好料、真材实料。
+          每一款调料都经过上百次配比调试，不添加任何香精、色素、防腐剂。
+          如今，"楠姐秘制"已经成为成都本地颇受欢迎的烧烤调料品牌，
+          希望通过互联网让更多人尝到这份烟火气。
+        </p>
+        <div class="story-features">
+          <div class="story-feature">
+            <div class="story-feature-icon">🌿</div>
+            <div>
+              <div class="story-feature-title">天然香辛料</div>
+              <div class="story-feature-desc">无香精，无色素，无防腐剂</div>
+            </div>
+          </div>
+          <div class="story-feature">
+            <div class="story-feature-icon">🔥</div>
+            <div>
+              <div class="story-feature-title">炭火风味</div>
+              <div class="story-feature-desc">还原记忆中路边摊的香气</div>
+            </div>
+          </div>
+          <div class="story-feature">
+            <div class="story-feature-icon">👨‍👩‍👧</div>
+            <div>
+              <div class="story-feature-title">家庭首选</div>
+              <div class="story-feature-desc">一料搞定，小白也能变大厨</div>
+            </div>
+          </div>
+          <div class="story-feature">
+            <div class="story-feature-icon">🏪</div>
+            <div>
+              <div class="story-feature-title">商用实测</div>
+              <div class="story-feature-desc">多家烧烤店长期供货验证</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="testimonials-grid">
-      <div class="review-card reveal">
-        <div class="review-stars">★★★★★</div>
-        <div class="review-text">"自从用了这个料，我家阳台的烧烤摊成了全小区最受欢迎的。每周末都有人来蹭饭，根本停不下来。"</div>
-        <div class="reviewer">
-          <div class="reviewer-avatar">李</div>
-          <div>
-            <div class="reviewer-name">李先生</div>
-            <div class="reviewer-title">上海 · 家庭用户</div>
-          </div>
+  </div>
+</section>
+
+<!-- How to use -->
+<section class="section" id="guide">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">使用教程</div>
+      <h2 class="section-title">四步搞定，零基础也能上手</h2>
+      <p class="section-sub">只需简单的四步，就能让普通食材秒变烧烤摊级别的美味。</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card reveal">
+        <div class="step-emoji">🥩</div>
+        <div class="step-num">1</div>
+        <div class="step-title">腌制食材</div>
+        <div class="step-desc">将肉类切块，加入楠姐调料适量，抓匀腌制 15-30 分钟。</div>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-emoji">🔥</div>
+        <div class="step-num">2</div>
+        <div class="step-title">上炉烧烤</div>
+        <div class="step-desc">炭火或烤箱预热后，将食材均匀铺开，中火慢烤。</div>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-emoji">🧂</div>
+        <div class="step-num">3</div>
+        <div class="step-title">二次撒料</div>
+        <div class="step-desc">烤至七成熟时再撒一层调料，激发香气，口感层次更丰富。</div>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-emoji">🍖</div>
+        <div class="step-num">4</div>
+        <div class="step-title">出锅享用</div>
+        <div class="step-desc">烤至金黄即可出锅，趁热享用，配上冰镇啤酒，简直绝了！</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Cases -->
+<section class="section cases-section" id="cases">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">客户案例</div>
+      <h2 class="section-title">来自真实用户的反馈</h2>
+      <p class="section-sub">家庭用户、烧烤商家、露营爱好者，大家都在用楠姐。</p>
+    </div>
+    <div class="cases-grid">
+      <div class="case-card reveal">
+        <div class="case-avatar" style="background: linear-gradient(135deg, #E8671A, #F4A261);">李</div>
+        <div class="case-stars">★★★★★</div>
+        <div class="case-text">"自从用了楠姐的调料，我家阳台的烧烤摊成了全小区最受欢迎的。每周末都有人来蹭饭，根本停不下来。"</div>
+        <div class="case-meta">
+          <div class="case-name">李先生</div>
+          <div class="case-label">家庭用户 · 上海</div>
         </div>
       </div>
-      <div class="review-card reveal">
-        <div class="review-stars">★★★★★</div>
-        <div class="review-text">"开了五年烧烤摊，换了无数牌子，最后锁定焰火十三香。成本低、香气足，客人吃了都问我在哪买的。"</div>
-        <div class="reviewer">
-          <div class="reviewer-avatar">王</div>
-          <div>
-            <div class="reviewer-name">王大姐</div>
-            <div class="reviewer-title">成都 · 烧烤店主</div>
-          </div>
+      <div class="case-card reveal">
+        <div class="case-avatar" style="background: linear-gradient(135deg, #C75000, #E8671A);">王</div>
+        <div class="case-stars">★★★★★</div>
+        <div class="case-text">"开了五年烧烤摊，换了无数牌子，最后锁定楠姐。成本低、香气足，客人吃了都问我在哪买的。"</div>
+        <div class="case-meta">
+          <div class="case-name">王大姐</div>
+          <div class="case-label">烧烤商家 · 成都</div>
         </div>
       </div>
-      <div class="review-card reveal">
-        <div class="review-stars">★★★★★</div>
-        <div class="review-text">"露营带上这个调料真的太方便了！一包搞定所有食材，朋友们还以为我偷偷去学了烧烤技术。"</div>
-        <div class="reviewer">
-          <div class="reviewer-avatar">张</div>
-          <div>
-            <div class="reviewer-name">张先生</div>
-            <div class="reviewer-title">北京 · 户外露营爱好者</div>
-          </div>
+      <div class="case-card reveal">
+        <div class="case-avatar" style="background: linear-gradient(135deg, #F4A261, #F4C48C);">张</div>
+        <div class="case-stars">★★★★★</div>
+        <div class="case-text">"露营带上楠姐调料真的太方便了！一包搞定所有食材，朋友们还以为我偷偷去学了烧烤技术。"</div>
+        <div class="case-meta">
+          <div class="case-name">张先生</div>
+          <div class="case-label">露营爱好者 · 北京</div>
         </div>
       </div>
-      <div class="review-card reveal">
-        <div class="review-stars">★★★★★</div>
-        <div class="review-text">"我之前从来不吃辣，蜜汁酱香味的彻底改变了我的认知。甜润不腻，烤五花肉简直一绝！"</div>
-        <div class="reviewer">
-          <div class="reviewer-avatar">陈</div>
-          <div>
-            <div class="reviewer-name">陈小姐</div>
-            <div class="reviewer-title">广州 · 美食博主</div>
-          </div>
+      <div class="case-card reveal">
+        <div class="case-avatar" style="background: linear-gradient(135deg, #D4956A, #C9A07A);">陈</div>
+        <div class="case-stars">★★★★★</div>
+        <div class="case-text">"我之前从来不吃辣，烈焰麻辣味彻底改变了我的认知。辣而回甜，配上冰啤酒太绝了！"</div>
+        <div class="case-meta">
+          <div class="case-name">陈小姐</div>
+          <div class="case-label">美食博主 · 广州</div>
+        </div>
+      </div>
+      <div class="case-card reveal">
+        <div class="case-avatar" style="background: linear-gradient(135deg, #B87333, #D4956A);">周</div>
+        <div class="case-stars">★★★★★</div>
+        <div class="case-text">"我是开民宿的，楠姐的调料成了我们的招牌。客人吃了都问能不能带几包走，后来直接给我们供货了。"</div>
+        <div class="case-meta">
+          <div class="case-name">周老板</div>
+          <div class="case-label">民宿业主 · 丽江</div>
+        </div>
+      </div>
+      <div class="case-card reveal">
+        <div class="case-avatar" style="background: linear-gradient(135deg, #8B6914, #C9A07A);">刘</div>
+        <div class="case-stars">★★★★★</div>
+        <div class="case-text">"孩子爱吃烧烤，又怕外面不干净。楠姐的调料自己在家用，安全又好吃，终于解决了这个难题！"</div>
+        <div class="case-meta">
+          <div class="case-name">刘女士</div>
+          <div class="case-label">家庭用户 · 深圳</div>
         </div>
       </div>
     </div>
@@ -530,14 +945,95 @@
 </section>
 
 <!-- CTA -->
+<section class="section">
+  <div class="container">
+    <div class="cta-card reveal">
+      <div class="cta-title">让烟火气，从你家厨房开始</div>
+      <div class="cta-sub">首单享优惠，老客户推荐有礼。楠姐等你来撩~</div>
+      <div class="cta-buttons">
+        <a href="#contact" class="btn-white">立即咨询购买</a>
+        <a href="#guide" class="btn-ghost">查看使用教程</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
 <section class="section" id="contact">
   <div class="container">
-    <div class="cta-banner reveal">
-      <h2>让烟火气，从厨房开始</h2>
-      <p>一瓶尝遍十三香，首单享八折优惠。限时活动，错过等下月。</p>
-      <a href="https://item.taobao.com/item.htm?id=YOUR_ITEM_ID" class="btn-primary" target="_blank">
-        去淘宝下单
-      </a>
+    <div class="section-header reveal">
+      <div class="section-tag">联系咨询</div>
+      <h2 class="section-title">有任何问题，欢迎联系我们</h2>
+      <p class="section-sub">无论是产品咨询、批发合作还是代理加盟，楠姐都会第一时间回复你。</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-form reveal">
+        <div class="form-title">发送咨询消息</div>
+        <form onsubmit="handleSubmit(event)">
+          <div class="form-group">
+            <label class="form-label">您的称呼</label>
+            <input class="form-input" type="text" placeholder="请输入您的姓名" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">联系电话</label>
+            <input class="form-input" type="tel" placeholder="请输入手机号码" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">咨询类型</label>
+            <select class="form-input" style="cursor:pointer;">
+              <option>产品购买咨询</option>
+              <option>批发 / 商户合作</option>
+              <option>代理加盟</option>
+              <option>其他问题</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">留言内容</label>
+            <textarea class="form-textarea" placeholder="请描述您的问题或需求…" required></textarea>
+          </div>
+          <button type="submit" class="form-submit">提交咨询</button>
+        </form>
+      </div>
+      <div class="contact-info reveal">
+        <h3>联系方式</h3>
+        <div class="contact-items">
+          <div class="contact-item">
+            <div class="contact-icon">📱</div>
+            <div>
+              <div class="contact-item-title">微信 / 手机</div>
+              <div class="contact-item-value">138-0000-0000（楠姐）</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">💬</div>
+            <div>
+              <div class="contact-item-title">微信公众号</div>
+              <div class="contact-item-value">楠姐秘制烧烤料（微信号：nanjie_bbq）</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">🏪</div>
+            <div>
+              <div class="contact-item-title">淘宝店铺</div>
+              <div class="contact-item-value">楠姐秘制烧烤料（搜索"楠姐烧烤料"）</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div>
+              <div class="contact-item-title">发货地址</div>
+              <div class="contact-item-value">四川省成都市（全国包邮）</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">⏰</div>
+            <div>
+              <div class="contact-item-title">工作时间</div>
+              <div class="contact-item-value">周一至周六 9:00 - 20:00</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -545,84 +1041,79 @@
 <!-- Footer -->
 <footer>
   <div class="container">
-    <div class="footer-inner">
-      <div class="footer-brand">焰火十三香</div>
-      <div class="footer-copy">© 2026 焰火十三香 · 专注烧烤调料，让烟火气走进千家万户</div>
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">楠姐<span>秘制</span></div>
+        <div class="footer-tagline">烟火人间，一料入魂</div>
+      </div>
+      <div class="footer-links">
+        <div class="footer-link-col">
+          <h4>快速导航</h4>
+          <ul>
+            <li><a href="#products">产品展示</a></li>
+            <li><a href="#story">品牌故事</a></li>
+            <li><a href="#guide">使用教程</a></li>
+            <li><a href="#cases">客户案例</a></li>
+            <li><a href="#contact">联系我们</a></li>
+          </ul>
+        </div>
+        <div class="footer-link-col">
+          <h4>产品口味</h4>
+          <ul>
+            <li><a href="#products">烈焰麻辣味</a></li>
+            <li><a href="#products">蜜汁酱香味</a></li>
+            <li><a href="#products">原味十三香</a></li>
+          </ul>
+        </div>
+        <div class="footer-link-col">
+          <h4>合作方式</h4>
+          <ul>
+            <li><a href="#contact">批发供货</a></li>
+            <li><a href="#contact">代理加盟</a></li>
+            <li><a href="#contact">企业定制</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 楠姐秘制烧烤料 · 专注烧烤调料，让烟火气走进千家万户</span>
+      <span>蜀ICP备xxxxxxxx号</span>
     </div>
   </div>
 </footer>
 
 <script>
-  // ── Particle canvas ──
-  (function() {
-    const canvas = document.getElementById('particles-canvas');
-    const ctx = canvas.getContext('2d');
-    let W, H, particles = [];
+  // Navbar shadow on scroll
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+  });
 
-    function resize() {
-      W = canvas.width = window.innerWidth;
-      H = canvas.height = window.innerHeight;
-    }
-    resize();
-    window.addEventListener('resize', resize);
-
-    class Particle {
-      constructor() { this.reset(); }
-      reset() {
-        this.x = Math.random() * W;
-        this.y = H + 10;
-        this.size = Math.random() * 3 + 1;
-        this.speedY = -(Math.random() * 1.2 + 0.3);
-        this.speedX = (Math.random() - 0.5) * 0.6;
-        this.opacity = Math.random() * 0.5 + 0.1;
-        this.life = 0;
-        this.maxLife = Math.random() * 200 + 100;
-      }
-      update() {
-        this.y += this.speedY;
-        this.x += this.speedX;
-        this.speedX += (Math.random() - 0.5) * 0.05;
-        this.life++;
-        if (this.life > this.maxLife || this.y < -10) this.reset();
-      }
-      draw() {
-        const t = this.life / this.maxLife;
-        const alpha = t < 0.2 ? t * 5 * this.opacity : (1 - (t - 0.2) / 0.8) * this.opacity;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(232, 93, 4, ${Math.max(0, alpha)})`;
-        ctx.fill();
-      }
-    }
-
-    for (let i = 0; i < 60; i++) {
-      const p = new Particle();
-      p.y = Math.random() * H;
-      p.life = Math.random() * 100;
-      particles.push(p);
-    }
-
-    function animate() {
-      ctx.clearRect(0, 0, W, H);
-      particles.forEach(p => { p.update(); p.draw(); });
-      requestAnimationFrame(animate);
-    }
-    animate();
-  })();
-
-  // ── Scroll reveal ──
+  // Scroll reveal
   (function() {
     const els = document.querySelectorAll('.reveal');
     const io = new IntersectionObserver(entries => {
       entries.forEach((entry, i) => {
         if (entry.isIntersecting) {
-          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          setTimeout(() => entry.target.classList.add('visible'), i * 60);
           io.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.15 });
+    }, { threshold: 0.1 });
     els.forEach(el => io.observe(el));
   })();
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    btn.textContent = '提交成功！';
+    btn.style.background = '#2D7D46';
+    setTimeout(() => {
+      btn.textContent = '提交咨询';
+      btn.style.background = '';
+      e.target.reset();
+    }, 2500);
+  }
 </script>
 </body>
 </html>
